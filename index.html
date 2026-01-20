@@ -7,22 +7,56 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root { --gold: #c5a059; --dark: #0f172a; }
-        body { background: var(--dark); color: white; font-family: 'Segoe UI', sans-serif; padding: 20px; text-align: center; }
-        .container { max-width: 400px; margin: auto; }
-        
-        /* شبكة الخدمات الديناميكية */
-        .services-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 20px 0; }
-        .service-card { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1); transition: 0.3s; }
-        .service-card i { color: var(--gold); font-size: 24px; margin-bottom: 10px; display: block; }
-        .service-card b { display: block; font-size: 14px; }
-        .service-card span { font-size: 12px; opacity: 0.6; }
+        :root { 
+    --gold: #c5a059; 
+    --dark: #0f172a; 
+    --glass: rgba(255, 255, 255, 0.08); 
+}
 
-        /* النموذج */
-        .booking-form { background: rgba(255,255,255,0.03); padding: 20px; border-radius: 20px; border: 1px dashed var(--gold); }
-        input, select, button { width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 10px; border: none; background: rgba(255,255,255,0.1); color: white; box-sizing: border-box; }
-        button { background: var(--gold); color: #000; font-weight: bold; cursor: pointer; }
-        #loader { color: var(--gold); font-size: 14px; margin: 20px 0; }
+body { 
+    background: var(--dark); 
+    font-family: 'Tajawal', sans-serif; /* تم تغيير الخط هنا */
+    color: white; 
+    margin: 0; 
+    padding: 20px; 
+}
+
+/* تنسيق القائمة المنسدلة (حل مشكلة اللون الأبيض) */
+select { 
+    width: 100%; 
+    padding: 12px; 
+    margin-bottom: 15px; 
+    border-radius: 10px; 
+    border: 1px solid rgba(255,255,255,0.2); 
+    background: #1e293b; /* لون خلفية غامق ليظهر الخط الأبيض */
+    color: white; 
+    font-family: 'Tajawal', sans-serif;
+    appearance: none; /* لإزالة السهم الافتراضي لبعض المتصفحات */
+}
+
+/* لضمان ظهور الخيارات (Options) بلون واضح */
+select option {
+    background: #1e293b; 
+    color: white;
+}
+
+input, textarea {
+    width: 100%; 
+    padding: 12px; 
+    margin-bottom: 15px; 
+    border-radius: 10px; 
+    border: 1px solid rgba(255,255,255,0.1); 
+    background: var(--glass); 
+    color: white; 
+    font-family: 'Tajawal', sans-serif;
+}
+
+/* تنسيق الحقول عند التركيز (Focus) */
+input:focus, select:focus {
+    outline: none;
+    border-color: var(--gold);
+    background: rgba(255,255,255,0.15);
+}
     </style>
 </head>
 <body>
@@ -90,6 +124,7 @@
 
 </body>
 </html>
+
 
 
 
