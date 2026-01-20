@@ -3,83 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>البطاقة الرقمية الذكية | نظام الحجز</title>
+    <title>البطاقة الذكية - لوحة تحكم</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root { --gold: #c5a059; --dark: #0f172a; --glass: rgba(255, 255, 255, 0.05); }
-        body { background: var(--dark); font-family: 'Segoe UI', sans-serif; color: white; margin: 0; padding: 20px; display: flex; justify-content: center; }
-        .card { width: 100%; max-width: 400px; text-align: center; }
+        :root { --gold: #c5a059; --dark: #0f172a; }
+        body { background: var(--dark); color: white; font-family: 'Segoe UI', sans-serif; padding: 20px; text-align: center; }
+        .container { max-width: 400px; margin: auto; }
         
-        /* الهوية البصرية */
-        .profile-img { width: 100px; height: 100px; border-radius: 50%; border: 2px solid var(--gold); margin-bottom: 10px; }
-        .contact-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 20px 0; }
-        .btn { padding: 12px; border-radius: 12px; text-decoration: none; color: white; font-weight: bold; border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.3s; }
-        .wa { background: #15803d; } .call { background: #1e293b; }
-        .btn:hover { transform: translateY(-3px); border-color: var(--gold); }
+        /* شبكة الخدمات الديناميكية */
+        .services-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 20px 0; }
+        .service-card { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1); transition: 0.3s; }
+        .service-card i { color: var(--gold); font-size: 24px; margin-bottom: 10px; display: block; }
+        .service-card b { display: block; font-size: 14px; }
+        .service-card span { font-size: 12px; opacity: 0.6; }
 
-        /* نموذج الحجز */
-        .booking-box { background: var(--glass); padding: 25px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px); }
-        h3 { color: var(--gold); margin-top: 0; }
-        input, select, textarea { width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.08); color: white; box-sizing: border-box; font-family: inherit; }
-        button { width: 100%; padding: 15px; background: var(--gold); border: none; border-radius: 10px; font-weight: bold; cursor: pointer; color: var(--dark); transition: 0.3s; }
-        button:disabled { background: #666; cursor: not-allowed; }
-        #successMsg { display: none; color: #4ade80; margin-top: 15px; font-weight: bold; }
+        /* النموذج */
+        .booking-form { background: rgba(255,255,255,0.03); padding: 20px; border-radius: 20px; border: 1px dashed var(--gold); }
+        input, select, button { width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 10px; border: none; background: rgba(255,255,255,0.1); color: white; box-sizing: border-box; }
+        button { background: var(--gold); color: #000; font-weight: bold; cursor: pointer; }
+        #loader { color: var(--gold); font-size: 14px; margin: 20px 0; }
     </style>
 </head>
 <body>
 
-<div class="card">
-    <img src="https://ui-avatars.com/api/?name=N+M&background=c5a059&color=fff" class="profile-img">
-    <h2 style="margin:0;">مكتب ناصر المانع</h2>
-    <p style="opacity: 0.7;">عقارات | استشارات | إدارة أملاك</p>
+<div class="container">
+    <h2>خدماتنا</h2>
+    <div id="loader">جاري تحميل الخدمات من الإكسل...</div>
+    
+    <div id="servicesContainer" class="services-grid">
+        </div>
 
-    <div class="contact-btns">
-        <a href="tel:+966500000000" class="btn call"><i class="fas fa-phone"></i> اتصال</a>
-        <a href="https://wa.me/966500000000" class="btn wa"><i class="fab fa-whatsapp"></i> واتساب</a>
-    </div>
-
-    <div class="booking-box">
-        <h3>احجز موعدك الآن</h3>
-        <form id="bookingForm">
-            <input type="text" name="name" placeholder="الاسم الكريم" required>
+    <div class="booking-form">
+        <h4>حجز موعد</h4>
+        <form id="orderForm">
+            <input type="text" name="name" placeholder="الاسم" required>
             <input type="tel" name="phone" placeholder="رقم الجوال" required>
-            <select name="service" required>
+            <select name="service" id="serviceDropdown" required>
                 <option value="">اختر الخدمة</option>
-                <option value="معاينة شقة">معاينة شقة</option>
-                <option value="استشارة عقارية">استشارة عقارية</option>
-                <option value="عرض عقار للبيع">عرض عقار للبيع</option>
             </select>
-            <textarea name="message" rows="3" placeholder="رسالة إضافية (اختياري)"></textarea>
-            <button type="submit" id="submitBtn">تأكيد الحجز</button>
+            <button type="submit" id="submitBtn">إرسال الطلب</button>
         </form>
-        <div id="successMsg">✅ تم استلام طلبك بنجاح، سنتصل بك قريباً!</div>
     </div>
 </div>
 
 <script>
-    // ضع رابط الـ Web App الخاص بك هنا
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbzki7OKlOpUS4QfYHfhOIk-2pG4VfSmQ6l8r0cUod5swp_rG_ao7hBbUojEYdgODAXjDQ/exec';
-    const form = document.getElementById('bookingForm');
-    const btn = document.getElementById('submitBtn');
-    const msg = document.getElementById('successMsg');
+    const URL = 'ضع_رابط_السكريبت_هنا';
 
-    form.addEventListener('submit', e => {
-        e.preventDefault();
-        btn.disabled = true;
-        btn.innerText = "جاري الإرسال...";
+    // 1. جلب الخدمات عند تحميل الصفحة
+    window.onload = () => {
+        fetch(URL)
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById('loader').style.display = 'none';
+            const container = document.getElementById('servicesContainer');
+            const dropdown = document.getElementById('serviceDropdown');
 
-        fetch(scriptURL, { method: 'POST', body: new FormData(form)})
-            .then(response => {
-                btn.style.display = 'none';
-                form.style.display = 'none';
-                msg.style.display = 'block';
-            })
-            .catch(error => {
-                alert("عذراً، حدث خطأ. حاول مرة أخرى.");
-                btn.disabled = false;
-                btn.innerText = "تأكيد الحجز";
+            data.forEach(s => {
+                // إضافة الكرت للموقع
+                container.innerHTML += `
+                    <div class="service-card">
+                        <i class="fas ${s.icon}"></i>
+                        <b>${s.name}</b>
+                        <span>${s.price}</span>
+                    </div>`;
+                // إضافة الخدمة للقائمة المنسدلة
+                dropdown.innerHTML += `<option value="${s.name}">${s.name}</option>`;
             });
-    });
+        });
+    };
+
+    // 2. إرسال الطلب للإكسل
+    document.getElementById('orderForm').onsubmit = (e) => {
+        e.preventDefault();
+        const btn = document.getElementById('submitBtn');
+        btn.disabled = true; btn.innerText = "جاري الإرسال...";
+        
+        fetch(URL, { method: 'POST', body: new FormData(e.target) })
+        .then(() => {
+            alert("تم استلام طلبك!");
+            e.target.reset();
+            btn.disabled = false; btn.innerText = "إرسال الطلب";
+        });
+    };
 </script>
 
 </body>
