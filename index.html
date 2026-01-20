@@ -3,157 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بطاقة الأعمال الذكية | نظام الحجز</title>
+    <title>البطاقة الرقمية الاحترافية</title>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
     <style>
-        :root { 
-            --gold: #c5a059; 
-            --dark: #0f172a; 
-            --glass: rgba(255, 255, 255, 0.05); 
-        }
+        :root { --gold: #c5a059; --dark: #0f172a; --glass: rgba(255,255,255,0.05); }
+        body { background: var(--dark); font-family: 'Tajawal', sans-serif; color: white; margin: 0; padding: 15px; display: flex; justify-content: center; }
+        .wrapper { width: 100%; max-width: 420px; text-align: center; }
+        
+        /* كروت الخدمات */
+        .services-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 20px 0; }
+        .s-card { background: var(--glass); padding: 15px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1); transition: 0.3s; }
+        .s-card i { color: var(--gold); font-size: 22px; margin-bottom: 8px; display: block; }
+        .s-card b { font-size: 14px; display: block; }
+        .s-card span { font-size: 11px; opacity: 0.6; }
 
-        body { 
-            background: var(--dark); 
-            font-family: 'Tajawal', sans-serif; 
-            color: white; 
-            margin: 0; 
-            padding: 20px; 
-            display: flex; 
-            justify-content: center; 
-        }
-
-        .container { width: 100%; max-width: 400px; text-align: center; }
-
-        /* تنسيق كروت الخدمات */
-        .services-grid { 
-            display: grid; 
-            grid-template-columns: 1fr 1fr; 
-            gap: 15px; 
-            margin: 25px 0; 
-        }
-        .s-card { 
-            background: var(--glass); 
-            padding: 20px; 
-            border-radius: 15px; 
-            border: 1px solid rgba(255,255,255,0.1); 
-            transition: 0.3s;
-        }
-        .s-card:hover { border-color: var(--gold); transform: translateY(-5px); }
-        .s-card i { color: var(--gold); font-size: 24px; margin-bottom: 10px; display: block; }
-        .s-card b { display: block; font-size: 14px; margin-bottom: 5px; }
-        .s-card span { font-size: 12px; opacity: 0.7; }
-
-        /* تنسيق النموذج وحل مشكلة اللون الأبيض */
-        .form-box { 
-            background: rgba(255,255,255,0.02); 
-            padding: 25px; 
-            border-radius: 20px; 
-            border: 1px dashed var(--gold); 
-        }
-
-        input, select, textarea { 
-            width: 100%; 
-            padding: 12px; 
-            margin-bottom: 15px; 
-            border-radius: 10px; 
-            border: 1px solid rgba(255,255,255,0.1); 
-            background: #1e293b; /* خلفية غامقة ثابتة */
-            color: white; 
-            font-family: 'Tajawal', sans-serif;
-            box-sizing: border-box;
-        }
-
-        /* حل نهائي لمشكلة خيارات القائمة في الموبايل */
-        select option {
-            background-color: #1e293b;
-            color: white;
-        }
-
-        button { 
-            width: 100%; 
-            padding: 15px; 
-            background: var(--gold); 
-            border: none; 
-            border-radius: 10px; 
-            font-weight: bold; 
-            font-family: 'Tajawal', sans-serif;
-            cursor: pointer; 
-            color: var(--dark); 
-            font-size: 16px;
-        }
-
-        #loader { color: var(--gold); margin: 20px 0; font-weight: bold; }
+        /* النموذج */
+        .form-section { background: rgba(255,255,255,0.02); padding: 20px; border-radius: 20px; border: 1px dashed var(--gold); }
+        input, select, textarea, button { width: 100%; padding: 12px; margin-bottom: 12px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); background: #1e293b; color: white; font-family: 'Tajawal'; box-sizing: border-box; }
+        button { background: var(--gold); color: var(--dark); font-weight: bold; border: none; cursor: pointer; font-size: 16px; }
+        #loader { color: var(--gold); font-weight: bold; padding: 20px; }
+        .success-msg { display: none; background: #15803d; color: white; padding: 15px; border-radius: 10px; margin-top: 10px; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h2 style="color: var(--gold);">خدماتنا المتاحة</h2>
-    <div id="loader">جاري مزامنة البيانات...</div>
+<div class="wrapper">
+    <h2 style="color:var(--gold)">نظام الحجز الذكي</h2>
     
+    <div id="loader">جاري المزامنة...</div>
     <div id="servicesContainer" class="services-grid"></div>
 
-    <div class="form-box">
-        <h3 style="margin-top:0;">طلب خدمة سريع</h3>
-        <form id="bookingForm">
-            <input type="text" name="name" placeholder="الاسم الكريم" required>
-            <input type="tel" name="phone" placeholder="رقم الجوال" required>
-            <select name="service" id="serviceSelect" required>
-                <option value="" disabled selected>اختر الخدمة المطلوبة</option>
+    <div class="form-section">
+        <form id="mainForm">
+            <input type="text" name="name" placeholder="الاسم الكامل" required>
+            <input type="tel" name="phone" placeholder="رقم الهاتف" required>
+            <select name="service" id="serviceDrop" required>
+                <option value="" disabled selected>اختر الخدمة</option>
             </select>
-            <button type="submit" id="submitBtn">إرسال الطلب</button>
+            <textarea name="message" placeholder="ملاحظات (اختياري)"></textarea>
+            <button type="submit" id="subBtn">تأكيد الحجز</button>
         </form>
+        <div id="success" class="success-msg">✅ تم إرسال طلبك بنجاح!</div>
     </div>
 </div>
 
 <script>
-    const URL = 'https://script.google.com/macros/s/AKfycbz_7S3S68n_3D9H788_0L2O8S9S8S8S8S8S/exec'; // تأكد من وضع رابطك هنا
+    // تعديل وحيد: ضع رابط الـ Web App الخاص بك هنا
+    const APP_URL = 'ضع_رابط_السكريبت_هنا';
 
-    // جلب البيانات من قوقل شيت
     window.onload = () => {
-        fetch(URL)
-        .then(res => res.json())
-        .then(data => {
+        fetch(APP_URL).then(res => res.json()).then(data => {
             document.getElementById('loader').style.display = 'none';
-            const container = document.getElementById('servicesContainer');
-            const select = document.getElementById('serviceSelect');
-
             data.forEach(item => {
-                // إضافة الكرت
-                container.innerHTML += `
+                document.getElementById('servicesContainer').innerHTML += `
                     <div class="s-card">
                         <i class="fas ${item.icon}"></i>
                         <b>${item.name}</b>
                         <span>${item.price}</span>
                     </div>`;
-                // إضافة الخيار للقائمة
-                select.innerHTML += `<option value="${item.name}">${item.name}</option>`;
+                document.getElementById('serviceDrop').innerHTML += `<option value="${item.name}">${item.name}</option>`;
             });
         });
     };
 
-    // إرسال البيانات
-    document.getElementById('bookingForm').onsubmit = (e) => {
+    document.getElementById('mainForm').onsubmit = (e) => {
         e.preventDefault();
-        const btn = document.getElementById('submitBtn');
-        btn.disabled = true;
-        btn.innerText = "جاري الحفظ في النظام...";
-        
-        fetch(URL, { method: 'POST', body: new FormData(e.target) })
-        .then(() => {
-            alert("تم استلام طلبك بنجاح! سنتواصل معك قريباً.");
-            e.target.reset();
-            btn.disabled = false;
-            btn.innerText = "إرسال الطلب";
+        const b = document.getElementById('subBtn');
+        b.disabled = true; b.innerText = "جاري الحفظ...";
+        fetch(APP_URL, { method: 'POST', body: new FormData(e.target) }).then(() => {
+            document.getElementById('mainForm').style.display = 'none';
+            document.getElementById('success').style.display = 'block';
         });
     };
 </script>
-
 </body>
 </html>
-
 
 
 
