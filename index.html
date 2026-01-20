@@ -3,78 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>البطاقة الذكية - لوحة تحكم</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>بطاقة الأعمال الذكية | نظام الحجز</title>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
     <style>
         :root { 
-    --gold: #c5a059; 
-    --dark: #0f172a; 
-    --glass: rgba(255, 255, 255, 0.08); 
-}
+            --gold: #c5a059; 
+            --dark: #0f172a; 
+            --glass: rgba(255, 255, 255, 0.05); 
+        }
 
-body { 
-    background: var(--dark); 
-    font-family: 'Tajawal', sans-serif; /* تم تغيير الخط هنا */
-    color: white; 
-    margin: 0; 
-    padding: 20px; 
-}
+        body { 
+            background: var(--dark); 
+            font-family: 'Tajawal', sans-serif; 
+            color: white; 
+            margin: 0; 
+            padding: 20px; 
+            display: flex; 
+            justify-content: center; 
+        }
 
-/* تنسيق القائمة المنسدلة (حل مشكلة اللون الأبيض) */
-select { 
-    width: 100%; 
-    padding: 12px; 
-    margin-bottom: 15px; 
-    border-radius: 10px; 
-    border: 1px solid rgba(255,255,255,0.2); 
-    background: #1e293b; /* لون خلفية غامق ليظهر الخط الأبيض */
-    color: white; 
-    font-family: 'Tajawal', sans-serif;
-    appearance: none; /* لإزالة السهم الافتراضي لبعض المتصفحات */
-}
+        .container { width: 100%; max-width: 400px; text-align: center; }
 
-/* لضمان ظهور الخيارات (Options) بلون واضح */
-select option {
-    background: #1e293b; 
-    color: white;
-}
+        /* تنسيق كروت الخدمات */
+        .services-grid { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 15px; 
+            margin: 25px 0; 
+        }
+        .s-card { 
+            background: var(--glass); 
+            padding: 20px; 
+            border-radius: 15px; 
+            border: 1px solid rgba(255,255,255,0.1); 
+            transition: 0.3s;
+        }
+        .s-card:hover { border-color: var(--gold); transform: translateY(-5px); }
+        .s-card i { color: var(--gold); font-size: 24px; margin-bottom: 10px; display: block; }
+        .s-card b { display: block; font-size: 14px; margin-bottom: 5px; }
+        .s-card span { font-size: 12px; opacity: 0.7; }
 
-input, textarea {
-    width: 100%; 
-    padding: 12px; 
-    margin-bottom: 15px; 
-    border-radius: 10px; 
-    border: 1px solid rgba(255,255,255,0.1); 
-    background: var(--glass); 
-    color: white; 
-    font-family: 'Tajawal', sans-serif;
-}
+        /* تنسيق النموذج وحل مشكلة اللون الأبيض */
+        .form-box { 
+            background: rgba(255,255,255,0.02); 
+            padding: 25px; 
+            border-radius: 20px; 
+            border: 1px dashed var(--gold); 
+        }
 
-/* تنسيق الحقول عند التركيز (Focus) */
-input:focus, select:focus {
-    outline: none;
-    border-color: var(--gold);
-    background: rgba(255,255,255,0.15);
-}
+        input, select, textarea { 
+            width: 100%; 
+            padding: 12px; 
+            margin-bottom: 15px; 
+            border-radius: 10px; 
+            border: 1px solid rgba(255,255,255,0.1); 
+            background: #1e293b; /* خلفية غامقة ثابتة */
+            color: white; 
+            font-family: 'Tajawal', sans-serif;
+            box-sizing: border-box;
+        }
+
+        /* حل نهائي لمشكلة خيارات القائمة في الموبايل */
+        select option {
+            background-color: #1e293b;
+            color: white;
+        }
+
+        button { 
+            width: 100%; 
+            padding: 15px; 
+            background: var(--gold); 
+            border: none; 
+            border-radius: 10px; 
+            font-weight: bold; 
+            font-family: 'Tajawal', sans-serif;
+            cursor: pointer; 
+            color: var(--dark); 
+            font-size: 16px;
+        }
+
+        #loader { color: var(--gold); margin: 20px 0; font-weight: bold; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>خدماتنا</h2>
-    <div id="loader">جاري تحميل الخدمات من الإكسل...</div>
+    <h2 style="color: var(--gold);">خدماتنا المتاحة</h2>
+    <div id="loader">جاري مزامنة البيانات...</div>
     
-    <div id="servicesContainer" class="services-grid">
-        </div>
+    <div id="servicesContainer" class="services-grid"></div>
 
-    <div class="booking-form">
-        <h4>حجز موعد</h4>
-        <form id="orderForm">
-            <input type="text" name="name" placeholder="الاسم" required>
+    <div class="form-box">
+        <h3 style="margin-top:0;">طلب خدمة سريع</h3>
+        <form id="bookingForm">
+            <input type="text" name="name" placeholder="الاسم الكريم" required>
             <input type="tel" name="phone" placeholder="رقم الجوال" required>
-            <select name="service" id="serviceDropdown" required>
-                <option value="">اختر الخدمة</option>
+            <select name="service" id="serviceSelect" required>
+                <option value="" disabled selected>اختر الخدمة المطلوبة</option>
             </select>
             <button type="submit" id="submitBtn">إرسال الطلب</button>
         </form>
@@ -82,49 +109,50 @@ input:focus, select:focus {
 </div>
 
 <script>
-    const URL = 'https://script.google.com/macros/s/AKfycbzE74EM3uBHIP6Erojy3VcdDwHLeNpLl_UB8ksTNPuxlhVHgfEPk0_YtHjxkTqajS76/exec';
+    const URL = 'https://script.google.com/macros/s/AKfycbz_7S3S68n_3D9H788_0L2O8S9S8S8S8S8S/exec'; // تأكد من وضع رابطك هنا
 
-    // 1. جلب الخدمات عند تحميل الصفحة
+    // جلب البيانات من قوقل شيت
     window.onload = () => {
         fetch(URL)
         .then(res => res.json())
         .then(data => {
             document.getElementById('loader').style.display = 'none';
             const container = document.getElementById('servicesContainer');
-            const dropdown = document.getElementById('serviceDropdown');
+            const select = document.getElementById('serviceSelect');
 
-            data.forEach(s => {
-                // إضافة الكرت للموقع
+            data.forEach(item => {
+                // إضافة الكرت
                 container.innerHTML += `
-                    <div class="service-card">
-                        <i class="fas ${s.icon}"></i>
-                        <b>${s.name}</b>
-                        <span>${s.price}</span>
+                    <div class="s-card">
+                        <i class="fas ${item.icon}"></i>
+                        <b>${item.name}</b>
+                        <span>${item.price}</span>
                     </div>`;
-                // إضافة الخدمة للقائمة المنسدلة
-                dropdown.innerHTML += `<option value="${s.name}">${s.name}</option>`;
+                // إضافة الخيار للقائمة
+                select.innerHTML += `<option value="${item.name}">${item.name}</option>`;
             });
         });
     };
 
-    // 2. إرسال الطلب للإكسل
-    document.getElementById('orderForm').onsubmit = (e) => {
+    // إرسال البيانات
+    document.getElementById('bookingForm').onsubmit = (e) => {
         e.preventDefault();
         const btn = document.getElementById('submitBtn');
-        btn.disabled = true; btn.innerText = "جاري الإرسال...";
+        btn.disabled = true;
+        btn.innerText = "جاري الحفظ في النظام...";
         
         fetch(URL, { method: 'POST', body: new FormData(e.target) })
         .then(() => {
-            alert("تم استلام طلبك!");
+            alert("تم استلام طلبك بنجاح! سنتواصل معك قريباً.");
             e.target.reset();
-            btn.disabled = false; btn.innerText = "إرسال الطلب";
+            btn.disabled = false;
+            btn.innerText = "إرسال الطلب";
         });
     };
 </script>
 
 </body>
 </html>
-
 
 
 
