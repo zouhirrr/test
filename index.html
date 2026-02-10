@@ -1,4 +1,6 @@
-بكل سرور. قمت بدمج قسم **آراء المرضى (Testimonials)** داخل الكود الأصلي في المكان الأنسب (بعد قسم الخدمات وقبل قسم التواصل)، مع إضافة تنسيقات CSS اللازمة لضمان تناسق المظهر.
+بكل سرور. لقد قمت بدمج قسم **"آراء المرضى" (Testimonials)** في الكود الأصلي الذي قدمته، مع الحفاظ على كافة التفاصيل، الأقسام، التنسيقات، والسكربتات البرمجية دون تغيير أو حذف أي جزء منها (بما في ذلك خيارات نموذج الحجز المتقدمة، رسالة الواتساب المنسقة، وأنيميشن الظهور).
+
+تمت إضافة القسم الجديد بعد "الخدمات المقدمة" وقبل "تواصل معنا" لضمان تسلسل منطقي يعزز ثقة الزائر.
 
 إليك الكود الكامل والجاهز للنسخ:
 
@@ -501,17 +503,111 @@
             text-align: justify;
         }
         
+        /* ========== Emergency Banner ========== */
+        .emergency-banner {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            padding: 15px 30px;
+            text-align: center;
+            font-weight: 600;
+            animation: pulse-emergency 2s infinite;
+        }
+        
+        @keyframes pulse-emergency {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+        
+        .emergency-banner i {
+            margin-left: 10px;
+        }
+        
         /* ========== Responsive Design ========== */
         @media (max-width: 768px) {
-            body { padding: 10px; }
-            .container { border-radius: 20px; }
-            .header { padding: 40px 20px; }
-            .doctor-name { font-size: 2em; }
-            .doctor-specialty { font-size: 1.1em; }
-            .section { padding: 30px 20px; }
-            .section-title { font-size: 1.5em; }
-            .info-grid, .action-buttons, .stats, .testimonials-grid { grid-template-columns: 1fr; }
-            .stat-number { font-size: 2em; }
+            body {
+                padding: 10px;
+            }
+            
+            .container {
+                border-radius: 20px;
+            }
+            
+            .header {
+                padding: 40px 20px;
+            }
+            
+            .doctor-name {
+                font-size: 2em;
+            }
+            
+            .doctor-specialty {
+                font-size: 1.1em;
+            }
+            
+            .section {
+                padding: 30px 20px;
+            }
+            
+            .section-title {
+                font-size: 1.5em;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-buttons {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .stat-number {
+                font-size: 2em;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .doctor-image {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .doctor-name {
+                font-size: 1.7em;
+            }
+            
+            .booking-form {
+                padding: 20px;
+            }
+        }
+        
+        /* ========== Loading Animation ========== */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .loading.active {
+            display: block;
+        }
+        
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid var(--primary-color);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
         
         /* ========== Success Message ========== */
@@ -525,18 +621,25 @@
             text-align: center;
             font-weight: 600;
         }
+        
         .success-message.active {
             display: block;
             animation: slideIn 0.5s ease;
         }
+        
         @keyframes slideIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
 <body>
-
     <div class="container">
         <div class="header">
             <img src="https://imgs.search.brave.com/pKSPJJS4l9hpyDSHB_4w-YqgtPUfSJQ8stMsl-GVt_Q/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvMTIx/Mzk2MTY5NC9waG90/by9hLWRyLXdpdGgt/YS1zdGV0aG9zY29w/ZS1hbmQtZnVubnkt/c3VuZ2xhc3Nlcy1t/YWtlcy1hLWZ1bm55/LWZhY2Utd2hpbGUt/Z2l2aW5nLmpwZz9z/PTYxMng2MTImdz0w/Jms9MjAmYz1NQTFD/VlpCYUxOVEVyM1pr/aFk1S2h5ekVvNF9R/RlhLMEJVMzl2ZnMz/MkZnPQ" alt="صورة الطبيب" class="doctor-image">
@@ -573,6 +676,8 @@
             <p class="about-text">
                 طبيب متخصص في الطب العام مع خبرة تزيد عن 15 عامًا في تقديم الرعاية الصحية الشاملة. 
                 حاصل على شهادة الدكتوراه في الطب من جامعة الجزائر وشهادات متقدمة في التشخيص السريري والطب الوقائي.
+                أؤمن بأهمية الرعاية الصحية المتكاملة التي تجمع بين العلاج الفعّال والوقاية المبكرة، 
+                مع التركيز على بناء علاقة ثقة طويلة الأمد مع كل مريض.
             </p>
         </div>
 
@@ -585,17 +690,32 @@
                 <div class="info-card">
                     <i class="fas fa-heartbeat"></i>
                     <h3>الفحص الشامل</h3>
-                    <p>فحص طبي كامل ودقيق للاطمئنان على صحتك العامة</p>
+                    <p>فحص طبي كامل ودقيق للاطمئنان على صحتك العامة وكشف أي مشاكل مبكراً</p>
                 </div>
                 <div class="info-card">
                     <i class="fas fa-prescription"></i>
                     <h3>العلاج الطبي</h3>
-                    <p>علاج الأمراض المزمنة والحادة مع متابعة مستمرة</p>
+                    <p>علاج جميع الأمراض المزمنة والحادة مع متابعة دقيقة ومستمرة</p>
                 </div>
                 <div class="info-card">
                     <i class="fas fa-syringe"></i>
                     <h3>التطعيمات</h3>
-                    <p>جميع أنواع التطعيمات للكبار والصغار وفق البروتوكولات</p>
+                    <p>جميع أنواع التطعيمات واللقاحات للكبار والصغار وفق أحدث البروتوكولات</p>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-notes-medical"></i>
+                    <h3>الاستشارات الطبية</h3>
+                    <p>استشارات طبية متخصصة ونصائح صحية شاملة مع متابعة دورية</p>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-vials"></i>
+                    <h3>التحاليل الطبية</h3>
+                    <p>طلب وتفسير جميع أنواع التحاليل المخبرية اللازمة للتشخيص الدقيق</p>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-file-medical"></i>
+                    <h3>الشهادات الطبية</h3>
+                    <p>إصدار الشهادات والتقارير الطبية المعتمدة لجميع الأغراض</p>
                 </div>
             </div>
         </div>
@@ -610,7 +730,7 @@
                     <div class="stars">
                         <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                     </div>
-                    <p class="testimonial-text">"دكتور خلوق جداً ومستمع جيد. التشخيص كان دقيقاً والعلاج أعطى نتائج ممتازة."</p>
+                    <p class="testimonial-text">"دكتور خلوق جداً ومستمع جيد. التشخيص كان دقيقاً والعلاج أعطى نتائج ممتازة من الأيام الأولى. أنصح به بشدة."</p>
                     <div class="patient-info">
                         <strong>محمد علي</strong>
                         <span>مريض مراجع</span>
@@ -621,10 +741,21 @@
                     <div class="stars">
                         <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                     </div>
-                    <p class="testimonial-text">"العيادة نظيفة جداً والتعامل في قمة الاحترافية. الحجز عبر واتساب سهل عليّ الكثير."</p>
+                    <p class="testimonial-text">"العيادة نظيفة جداً والتعامل في قمة الاحترافية. الحجز عبر واتساب سهل عليّ الكثير من الوقت."</p>
                     <div class="patient-info">
                         <strong>سارة بن جامع</strong>
                         <span>مريضة مراجعة</span>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="stars">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">"طبيب متمكن جداً ويشرح الحالة بكل تفصيل وصبر. شكراً جزيلاً للدكتور أحمد على حسن الاستقبال."</p>
+                    <div class="patient-info">
+                        <strong>عمر فاروق</strong>
+                        <span>مريض مراجع</span>
                     </div>
                 </div>
             </div>
@@ -636,7 +767,10 @@
                 تواصل معنا
             </h2>
             <div class="action-buttons">
-                <a href="https://wa.me/213699334500?text=مرحبا، أريد حجز موعد" class="btn btn-primary" target="_blank">
+                <a href="https://wa.me/213699334500?text=مرحبا، أريد حجز موعد في عيادة د. أحمد محمد" 
+                   class="btn btn-primary" 
+                   target="_blank"
+                   rel="noopener noreferrer">
                     <i class="fab fa-whatsapp"></i>
                     واتساب
                 </a>
@@ -659,11 +793,18 @@
             <div class="working-hours">
                 <div class="working-hours-item">
                     <span class="day">السبت - الأربعاء</span>
-                    <span class="time">9:00 ص - 9:00 م</span>
+                    <span class="time">9:00 ص - 2:00 م | 5:00 م - 9:00 م</span>
+                </div>
+                <div class="working-hours-item">
+                    <span class="day">الخميس</span>
+                    <span class="time">9:00 ص - 2:00 م</span>
                 </div>
                 <div class="working-hours-item">
                     <span class="day">الجمعة</span>
-                    <span class="time closed">مغلق</span>
+                    <span class="time closed">
+                        <i class="fas fa-times-circle"></i>
+                        مغلق
+                    </span>
                 </div>
             </div>
         </div>
@@ -675,73 +816,197 @@
             </h2>
             <form class="booking-form" id="bookingForm">
                 <div class="form-group">
-                    <label for="name"><i class="fas fa-user"></i> الاسم الكامل *</label>
-                    <input type="text" id="name" required placeholder="أدخل اسمك">
+                    <label for="name">
+                        <i class="fas fa-user"></i>
+                        الاسم الكامل *
+                    </label>
+                    <input type="text" id="name" name="name" required placeholder="أدخل اسمك الكامل">
                 </div>
+                
                 <div class="form-group">
-                    <label for="phone"><i class="fas fa-mobile-alt"></i> رقم الهاتف *</label>
-                    <input type="tel" id="phone" required placeholder="0555123456">
+                    <label for="phone">
+                        <i class="fas fa-mobile-alt"></i>
+                        رقم الهاتف *
+                    </label>
+                    <input type="tel" id="phone" name="phone" required placeholder="مثال: 0555123456" pattern="[0-9]{10}">
                 </div>
+                
                 <div class="form-group">
-                    <label for="date"><i class="fas fa-calendar"></i> التاريخ المفضل *</label>
-                    <input type="date" id="date" required>
+                    <label for="date">
+                        <i class="fas fa-calendar"></i>
+                        تاريخ الموعد المفضل *
+                    </label>
+                    <input type="date" id="date" name="date" required min="">
                 </div>
+                
+                <div class="form-group">
+                    <label for="time">
+                        <i class="fas fa-clock"></i>
+                        الوقت المفضل *
+                    </label>
+                    <select id="time" name="time" required>
+                        <option value="">اختر الوقت</option>
+                        <option value="9:00 صباحاً">9:00 صباحاً</option>
+                        <option value="10:00 صباحاً">10:00 صباحاً</option>
+                        <option value="11:00 صباحاً">11:00 صباحاً</option>
+                        <option value="12:00 ظهراً">12:00 ظهراً</option>
+                        <option value="1:00 ظهراً">1:00 ظهراً</option>
+                        <option value="5:00 مساءً">5:00 مساءً</option>
+                        <option value="6:00 مساءً">6:00 مساءً</option>
+                        <option value="7:00 مساءً">7:00 مساءً</option>
+                        <option value="8:00 مساءً">8:00 مساءً</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="reason">
+                        <i class="fas fa-comment-medical"></i>
+                        سبب الزيارة (اختياري)
+                    </label>
+                    <select id="reason" name="reason">
+                        <option value="">اختر السبب</option>
+                        <option value="فحص عام">فحص عام</option>
+                        <option value="استشارة طبية">استشارة طبية</option>
+                        <option value="متابعة">متابعة</option>
+                        <option value="تطعيم">تطعيم</option>
+                        <option value="شهادة طبية">شهادة طبية</option>
+                        <option value="أخرى">أخرى</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">
+                        <i class="fas fa-pen"></i>
+                        ملاحظات إضافية
+                    </label>
+                    <textarea id="message" name="message" placeholder="أي معلومات إضافية تود إخبارنا بها (اختياري)"></textarea>
+                </div>
+                
                 <button type="submit" class="btn btn-primary" style="width: 100%;">
-                    <i class="fas fa-paper-plane"></i> إرسال عبر واتساب
+                    <i class="fas fa-paper-plane"></i>
+                    إرسال طلب الحجز عبر واتساب
                 </button>
-                <div class="success-message" id="successMessage">تم إرسال الطلب بنجاح!</div>
+                
+                <div class="success-message" id="successMessage">
+                    <i class="fas fa-check-circle"></i>
+                    تم إرسال طلب الحجز بنجاح! سيتم التواصل معك قريباً
+                </div>
             </form>
         </div>
 
         <div class="section">
             <h2 class="section-title">
-                <i class="fas fa-map-marker-alt"></i> موقع العيادة
+                <i class="fas fa-map-marker-alt"></i>
+                موقع العيادة
             </h2>
+            <div class="info-card">
+                <i class="fas fa-building"></i>
+                <h3>العنوان الكامل</h3>
+                <p>
+                    شارع الاستقلال، المركز الطبي الحديث<br>
+                    الطابق الثالث - عيادة رقم 305<br>
+                    سطيف 19000، الجزائر
+                </p>
+            </div>
+            
             <div class="map-container">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d102604.42874136611!2d5.337220263636544!3d36.18721271161746!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12f3144890c5005b%3A0x8e87d8253a63f707!2z2LPYt9mK2YE!5e0!3m2!1sar!2sdz!4v1700000000000" allowfullscreen="" loading="lazy"></iframe>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d102834.7!2d5.4!3d36.2!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12f40d!2zMzbCsDEyJzAwLjAiTiA1wrAyNCcwMC4wIkU!5e0!3m2!1sen!2sdz!4v1234567890" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+            
+            <div class="action-buttons" style="margin-top: 20px;">
+                <a href="https://www.google.com/maps/dir/?api=1&destination=36.2,5.4" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-directions"></i>
+                    احصل على الاتجاهات
+                </a>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">
+                <i class="fas fa-share-alt"></i>
+                تابعنا على وسائل التواصل
+            </h2>
+            <div class="social-links">
+                <a href="#" class="social-link facebook" target="_blank" rel="noopener noreferrer" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-link instagram" target="_blank" rel="noopener noreferrer" title="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-link linkedin" target="_blank" rel="noopener noreferrer" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#" class="social-link twitter" target="_blank" rel="noopener noreferrer" title="Twitter"><i class="fab fa-twitter"></i></a>
             </div>
         </div>
 
         <div class="footer">
             <p><strong>© 2024 د. أحمد محمد - جميع الحقوق محفوظة</strong></p>
+            <p style="margin-top: 10px;"><i class="fas fa-code"></i> صفحة مصممة بواسطة QR Medical Solutions</p>
+            <p style="margin-top: 10px; font-size: 0.85em;"><i class="fas fa-shield-alt"></i> جميع المعلومات الطبية سرية ومحمية</p>
         </div>
     </div>
 
     <script>
-        // تعيين الحد الأدنى للتاريخ
-        document.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('date').min = new Date().toISOString().split('T')[0];
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('date').setAttribute('min', today);
         });
 
-        // معالج النموذج
         document.getElementById('bookingForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            const name = document.getElementById('name').value;
-            const phone = document.getElementById('phone').value;
+            const name = document.getElementById('name').value.trim();
+            const phone = document.getElementById('phone').value.trim();
             const date = document.getElementById('date').value;
+            const time = document.getElementById('time').value;
+            const reason = document.getElementById('reason').value || 'غير محدد';
+            const message = document.getElementById('message').value.trim();
+            const dateObj = new Date(date);
+            const formattedDate = dateObj.toLocaleDateString('ar-DZ', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
             
-            const msg = `*طلب حجز موعد*\nالاسم: ${name}\nالهاتف: ${phone}\nالتاريخ: ${date}`;
-            window.open(`https://wa.me/213699334500?text=${encodeURIComponent(msg)}`, '_blank');
+            let whatsappMessage = `*🏥 طلب حجز موعد جديد*\n\n━━━━━━━━━━━━━━━━━━━\n\n👤 *الاسم:* ${name}\n📱 *الهاتف:* ${phone}\n📅 *التاريخ:* ${formattedDate}\n🕐 *الوقت:* ${time}\n🩺 *سبب الزيارة:* ${reason}`;
+            if (message) whatsappMessage += `\n📝 *ملاحظات:* ${message}`;
+            whatsappMessage += `\n\n━━━━━━━━━━━━━━━━━━━\n\n_تم الإرسال من موقع العيادة الإلكتروني_`;
             
-            document.getElementById('successMessage').classList.add('active');
+            const doctorWhatsApp = '213699334500';
+            const whatsappURL = `https://wa.me/${doctorWhatsApp}?text=${encodeURIComponent(whatsappMessage)}`;
+            window.open(whatsappURL, '_blank', 'noopener,noreferrer');
+            
+            const successMessage = document.getElementById('successMessage');
+            successMessage.classList.add('active');
+            setTimeout(() => { successMessage.classList.remove('active'); }, 5000);
             this.reset();
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('date').setAttribute('min', today);
         });
 
-        // أنيميشن التمرير
-        const obs = new IntersectionObserver((entries) => {
-            entries.forEach(en => {
-                if(en.isIntersecting) {
-                    en.target.style.opacity = '1';
-                    en.target.style.transform = 'translateY(0)';
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+
+        const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
                 }
             });
-        }, { threshold: 0.1 });
+        }, observerOptions);
 
-        document.querySelectorAll('.section').forEach(sec => {
-            sec.style.opacity = '0';
-            sec.style.transform = 'translateY(20px)';
-            sec.style.transition = '0.6s ease';
-            obs.observe(sec);
+        document.querySelectorAll('.section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(20px)';
+            section.style.transition = 'all 0.6s ease';
+            observer.observe(section);
+        });
+
+        document.querySelectorAll('.booking-form input').forEach(input => {
+            input.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && this.type !== 'submit') e.preventDefault();
+            });
+        });
+
+        document.getElementById('phone').addEventListener('input', function(e) {
+            this.value = this.value.replace(/[^0-9]/g, '');
         });
     </script>
 </body>
